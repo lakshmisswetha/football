@@ -8,6 +8,13 @@ let y = 50;
 let postTop = document.querySelector(".post-left").offsetTop;
 let postBot = postTop + 200;
 
+function reset (){
+    ball.style.left = 50 + '%';
+    ball.style.top = 50 + '%';
+    x = 50;
+    y = 50;
+}
+
 
 
 document.addEventListener('keydown',(e)=>{
@@ -17,18 +24,13 @@ document.addEventListener('keydown',(e)=>{
             x-=speed;
             ball.style.left = x + '%';
         } 
-        if ((ball.style.left < 1.9+'%') && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
+        if ((x===0) && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
             alert("Goal!")
-            ball.style.left = 50 + '%';
-            ball.style.top = 50 + '%';
-            x = 50;
-            y = 50;
+            reset();
         }       
     }
     else if(e.keyCode===38){
-        //move up
-        
-        
+        //move up       
         if(y>0){
             y-=speed;
             ball.style.top = y + '%';
@@ -42,10 +44,7 @@ document.addEventListener('keydown',(e)=>{
         }
         if ((ball.style.left > 94+'%') && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
             alert("Goal!")
-            ball.style.left = 50 + '%';
-            ball.style.top = 50 + '%';
-            x = 50;
-            y = 50;
+            reset();
         }
     }
     else if(e.keyCode===40){
@@ -55,8 +54,6 @@ document.addEventListener('keydown',(e)=>{
             ball.style.top = y + '%';
         }
     }
-
-
     
 })
 
@@ -71,12 +68,9 @@ document.querySelector("#left-icon").addEventListener("click",()=>{
         x-=speed;
         ball.style.left = x + '%';
     } 
-    if ((ball.style.left < 1.9+'%') && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
+    if ((x==0) && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
         alert("Goal!")
-        ball.style.left = 50 + '%';
-        ball.style.top = 50 + '%';
-        x = 50;
-        y = 50;
+        reset();
     } 
 })
 document.querySelector("#right-icon").addEventListener("click",()=>{
@@ -86,10 +80,7 @@ document.querySelector("#right-icon").addEventListener("click",()=>{
     }
     if ((ball.style.left > 94+'%') && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
         alert("Goal!")
-        ball.style.left = 50 + '%';
-        ball.style.top = 50 + '%';
-        x = 50;
-        y = 50;
+        reset();
     }
 })
 document.querySelector("#bottom-icon").addEventListener("click",()=>{
