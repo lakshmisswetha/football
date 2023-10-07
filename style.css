@@ -9,7 +9,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 140px 300px 140px 100px;
+  padding: 140px 300px 140px 200px;
   height: 100vh;
   position: relative;
 }
@@ -89,11 +89,11 @@ body .boundary .post-right {
   right: 0;
 }
 body .boundary .circle {
-  border: 1px solid lightgray;
-  background-color: aquamarine;
+  border: 1px solid;
+  background-color: lightgray;
   border-radius: 50%;
-  width: 5%;
-  height: 12%;
+  width: 45px;
+  height: 45px;
   position: absolute;
   left: 50%;
   top: 50%;

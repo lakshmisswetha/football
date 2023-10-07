@@ -1,91 +1,104 @@
-const boundary = document.querySelector(".boundary");
 const ball = document.querySelector(".circle");
+const boundary = document.querySelector(".boundary");
+const postL = document.querySelector(".post-left");
 
-let speed = 2;
-let x = 50;
-let y = 50;
+let x = parseFloat(getComputedStyle(ball).left);
+let y = parseFloat(getComputedStyle(ball).top);
+let speed = 15;
 
-let postTop = document.querySelector(".post-left").offsetTop;
-let postBot = postTop + 200;
+function isGoal(){
+    let postTop = (boundary.offsetHeight-200)/2;
+    let ballTop = parseFloat(getComputedStyle(ball).top);
+    let ballLeft = parseFloat(getComputedStyle(ball).left);
 
-function reset (){
-    ball.style.left = 50 + '%';
-    ball.style.top = 50 + '%';
-    x = 50;
-    y = 50;
+    if((ballLeft < 55 || ballLeft>(boundary.offsetWidth-100)) && ((postTop< ballTop) && ((postTop + 160) > ballTop))) return true; 
+}
+
+function reset(){
+    ball.style.left = "50%";
+    ball.style.top = "50%";
+    x = parseFloat(getComputedStyle(ball).left);
+    y = parseFloat(getComputedStyle(ball).top);
+}
+
+function moveLeft(){
+    if(x>0){
+        x -= speed;
+        ball.style.left = x + 'px';
+    }
+    
+    if(isGoal()){
+        setTimeout(()=>{
+            alert("GOAL !!");
+            reset();
+        },0)
+    } 
+}
+
+function moveRight(){
+    if(boundary.offsetWidth-(x+45)>0){
+        x += speed;
+        ball.style.left = x + 'px';
+    }
+    if(isGoal()){
+        setTimeout(()=>{
+            alert("GOAL !!");
+            reset();
+        },0)
+    } 
 }
 
 
+function moveTop(){
+    if(y>3){
+        y -= speed;
+        ball.style.top =  y + 'px';
+    } 
+    if(isGoal()){
+        setTimeout(()=>{
+            alert("GOAL !!");
+            reset();
+        },0)
+    } 
+}
+function moveDown(){
+    if((boundary.offsetHeight-(y+45))>0){
+        y += speed;
+        ball.style.top = y + 'px';
+    } 
+    if(isGoal()){
+        setTimeout(()=>{
+            alert("GOAL !!");
+            reset();
+        },0)
+    }  
+}
 
 document.addEventListener('keydown',(e)=>{
-    if (e.keyCode===37){
-        //move left
-        if(x>0){
-            x-=speed;
-            ball.style.left = x + '%';
-        } 
-        if ((x===0) && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
-            alert("Goal!")
-            reset();
-        }       
+    if (e.keyCode===37){     
+        moveLeft();        
     }
-    else if(e.keyCode===38){
-        //move up       
-        if(y>0){
-            y-=speed;
-            ball.style.top = y + '%';
-        }
+})
+document.addEventListener('keydown',(e)=>{
+    if (e.keyCode===39){       
+        moveRight();                
     }
-    else if(e.keyCode===39){
-        //move right
-        if((95-x)>0){
-            x+=speed;
-            ball.style.left = x + '%';
-        }
-        if ((ball.style.left > 94+'%') && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
-            alert("Goal!")
-            reset();
-        }
+})
+document.addEventListener('keydown',(e)=>{
+    if (e.keyCode===38){  
+        moveTop()                  
     }
-    else if(e.keyCode===40){
-        //move down
-        if( (88-y)>0      ){
-            y+=speed;
-            ball.style.top = y + '%';
-        }
+})
+document.addEventListener('keydown',(e)=>{
+    if (e.keyCode===40){ 
+        moveDown()      
     }
-    
 })
 
-document.querySelector("#top-icon").addEventListener("click",()=>{
-    if(y>0){
-        y-=speed;
-        ball.style.top = y + '%';
-    }
-})
-document.querySelector("#left-icon").addEventListener("click",()=>{
-    if(x>0){
-        x-=speed;
-        ball.style.left = x + '%';
-    } 
-    if ((x==0) && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
-        alert("Goal!")
-        reset();
-    } 
-})
-document.querySelector("#right-icon").addEventListener("click",()=>{
-    if((95-x)>0){
-        x+=speed;
-        ball.style.left = x + '%';
-    }
-    if ((ball.style.left > 94+'%') && (ball.offsetTop>100) && (ball.offsetTop<postBot) ){
-        alert("Goal!")
-        reset();
-    }
-})
-document.querySelector("#bottom-icon").addEventListener("click",()=>{
-    if( (88-y)>0){
-        y+=speed;
-        ball.style.top = y + '%';
-    }
-})
+
+
+document.querySelector("#left-icon").addEventListener("click",()=>moveLeft())
+document.querySelector("#right-icon").addEventListener("click",()=>moveRight())     
+document.querySelector("#top-icon").addEventListener("click",()=>moveTop())
+document.querySelector("#bottom-icon").addEventListener("click",()=>moveDown())
+
