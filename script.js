@@ -11,7 +11,7 @@ function isGoal(){
     let ballTop = parseFloat(getComputedStyle(ball).top);
     let ballLeft = parseFloat(getComputedStyle(ball).left);
 
-    if((ballLeft < 55 || ballLeft>(boundary.offsetWidth-100)) && ((postTop< ballTop) && ((postTop + 160) > ballTop))) return true; 
+    if((ballLeft < 45 || ballLeft>(boundary.offsetWidth-95)) && ((postTop+5< ballTop) && ((postTop + 200) > ballTop+45))) return true; 
 }
 
 function reset(){
@@ -21,84 +21,39 @@ function reset(){
     y = parseFloat(getComputedStyle(ball).top);
 }
 
-function moveLeft(){
-    if(x>0){
-        x -= speed;
+
+function move (xDist, yDist){
+    const maxX = boundary.offsetWidth;
+    const maxY = boundary.offsetHeight;
+    if ((x>0) && (x+45 <= maxX) && (y>0) && (y+45<maxY)){
+        x += xDist;
+        y += yDist;
+
+        if (x<0) x=1;
+        else if(x+45>maxX) x = maxX-45;
+        else if (y<0) y=1;
+        else if (y+45>maxY) y = maxY-46;
+
         ball.style.left = x + 'px';
-    }
-    
-    if(isGoal()){
-        setTimeout(()=>{
-            alert("GOAL !!");
-            reset();
-        },0)
-    } 
-}
-
-function moveRight(){
-    if(boundary.offsetWidth-(x+45)>0){
-        x += speed;
-        ball.style.left = x + 'px';
-    }
-    if(isGoal()){
-        setTimeout(()=>{
-            alert("GOAL !!");
-            reset();
-        },0)
-    } 
-}
-
-
-function moveTop(){
-    if(y>3){
-        y -= speed;
         ball.style.top =  y + 'px';
-    } 
+    }
     if(isGoal()){
         setTimeout(()=>{
             alert("GOAL !!");
             reset();
         },0)
-    } 
+    }
 }
-function moveDown(){
-    if((boundary.offsetHeight-(y+45))>0){
-        y += speed;
-        ball.style.top = y + 'px';
-    } 
-    if(isGoal()){
-        setTimeout(()=>{
-            alert("GOAL !!");
-            reset();
-        },0)
-    }  
-}
-
 document.addEventListener('keydown',(e)=>{
-    if (e.keyCode===37){     
-        moveLeft();        
-    }
-})
-document.addEventListener('keydown',(e)=>{
-    if (e.keyCode===39){       
-        moveRight();                
-    }
-})
-document.addEventListener('keydown',(e)=>{
-    if (e.keyCode===38){  
-        moveTop()                  
-    }
-})
-document.addEventListener('keydown',(e)=>{
-    if (e.keyCode===40){ 
-        moveDown()      
-    }
+    if (e.keyCode===37) move(-speed,0);    
+    else if (e.keyCode===39) move(speed,0); 
+    else if (e.keyCode===38) move(0,-speed); 
+    else if (e.keyCode===40) move(0,speed);          
+    
 })
 
-
-
-document.querySelector("#left-icon").addEventListener("click",()=>moveLeft())
-document.querySelector("#right-icon").addEventListener("click",()=>moveRight())     
-document.querySelector("#top-icon").addEventListener("click",()=>moveTop())
-document.querySelector("#bottom-icon").addEventListener("click",()=>moveDown())
+document.querySelector("#left-icon").addEventListener("click",()=>move(-speed,0))
+document.querySelector("#right-icon").addEventListener("click",()=>move(speed,0))     
+document.querySelector("#top-icon").addEventListener("click",()=>move(0,-speed))
+document.querySelector("#bottom-icon").addEventListener("click",()=>move(0,speed))
 
